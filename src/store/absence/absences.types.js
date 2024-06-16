@@ -1,0 +1,3 @@
+export const ABSENCE_ACTION_TYPES = {
+  SET_ABSENCES: "SET_ABSENCES",
+};
