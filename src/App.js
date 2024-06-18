@@ -11,15 +11,15 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("hello");
     const getAbsences = async () => {
-      console.log("hello");
+      console.log("hi");
       try {
+        console.log("hi");
         const result = await axios.get(
           `https://front-end-kata.brighthr.workers.dev/api/absences`
         );
-        console.log("result", result);
-        dispatch(setAbsences(result.data));
+
+        dispatch(setAbsences(result));
       } catch (error) {
         console.error("Error fetching absences:", error);
       }
@@ -27,33 +27,23 @@ function App() {
     getAbsences();
   }, [dispatch]);
 
-  if (absence.absence <= 0) {
-    return;
-  }
-  console.log(absence);
-  console.log(absence?.absence.map((i) => i));
-
   return (
     <div className="App">
       <h1>List of absences</h1>
 
-      {absence && absence?.absence?.length > 0 ? (
-        absence?.absence.map((i) =>
-          Object.entries(i).map((abs) =>
-            abs[1].employee.map((n) => (
-              <div className="card" key={i.id}>
-                <>
-                  <p>First Name: {n.firstName}</p>
-                  <p>Last Name: {n.lastName}</p>
-                </>
-                <p>ID: {i.startDate}</p> <p>Start Date: {i.startDate}</p>{" "}
-                <p>Days: {i.days}</p>
-                <p>absenceType: {i.absenceType}</p>
-                <p>Status: {i.approved}</p>
-              </div>
-            ))
-          )
-        )
+      {absence && absence.absence.data?.length > 0 ? (
+        absence.absence.data.map((item) => (
+          <div className="card" key={item.id}>
+            <>
+              <p>First Name: {item.employee.firstName}</p>
+              <p>Last Name: {item.employee.lastName}</p>
+            </>
+            <p>ID: {item.startDate}</p> <p>Start Date: {item.startDate}</p>{" "}
+            <p>Days: {item.days}</p>
+            <p>absenceType: {item.absenceType}</p>
+            <p>Status: {item.approved}</p>
+          </div>
+        ))
       ) : (
         <p>No data Found</p>
       )}
